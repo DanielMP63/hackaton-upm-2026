@@ -87,11 +87,18 @@
                     var citizenListItem = document.createElement('li');
                     citizenListItem.className = 'list-group-item';
                     citizenListItem.setAttribute('data-alert-id', alert.id);
+                    var guidanceHtml = '';
+                    if (alert.guidance && alert.guidance.length) {
+                        guidanceHtml = '<ul class="mb-0 mt-2 small text-primary ps-3">'
+                            + alert.guidance.map(function (tip) { return '<li>' + escapeHtml(tip) + '</li>'; }).join('')
+                            + '</ul>';
+                    }
                     citizenListItem.innerHTML =
                         '<div class="d-flex justify-content-between align-items-start">' +
                             '<div>' +
                                 '<strong>' + escapeHtml(alert.title) + '</strong>' +
                                 (alert.message ? '<p class="mb-0 text-muted small mt-1">' + escapeHtml(alert.message) + '</p>' : '') +
+                                guidanceHtml +
                             '</div>' +
                             '<span class="text-muted small text-nowrap ms-3">' + alertDateStr + '</span>' +
                         '</div>';

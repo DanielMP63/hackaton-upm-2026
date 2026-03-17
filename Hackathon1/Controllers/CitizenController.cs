@@ -15,17 +15,20 @@ namespace Hackathon1.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IWeatherService _weatherService;
         private readonly IRecommendationService _recommendationService;
+        private readonly IAlertGuidanceService _alertGuidanceService;
         private readonly ApplicationDbContext _context;
 
         public CitizenController(
             UserManager<ApplicationUser> userManager,
             IWeatherService weatherService,
             IRecommendationService recommendationService,
+            IAlertGuidanceService alertGuidanceService,
             ApplicationDbContext context)
         {
             _userManager = userManager;
             _weatherService = weatherService;
             _recommendationService = recommendationService;
+            _alertGuidanceService = alertGuidanceService;
             _context = context;
         }
 
@@ -40,10 +43,18 @@ namespace Hackathon1.Controllers
 
             var recommendations = await _recommendationService.GetRecommendationsAsync(forecast, user.Id);
 
-            var alerts = await _context.Alerts
+            var activeAlerts = await _context.Alerts
                 .Where(a => a.IsActive)
                 .OrderByDescending(a => a.CreatedAt)
                 .ToListAsync();
+
+            var alerts = activeAlerts
+                .Select(a => new CitizenAlertItemViewModel
+                {
+                    Alert = a,
+                    Guidance = _alertGuidanceService.GetGuidance(a.Title, a.Message)
+                })
+                .ToList();
 
             var vm = new CitizenDashboardViewModel
             {

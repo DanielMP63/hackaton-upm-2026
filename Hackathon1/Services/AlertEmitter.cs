@@ -7,10 +7,12 @@ namespace Hackathon1.Services
     public class AlertEmitter : IAlertEmitter
     {
         private readonly IHubContext<NotificationsHub> _hub;
+        private readonly IAlertGuidanceService _alertGuidanceService;
 
-        public AlertEmitter(IHubContext<NotificationsHub> hub)
+        public AlertEmitter(IHubContext<NotificationsHub> hub, IAlertGuidanceService alertGuidanceService)
         {
             _hub = hub;
+            _alertGuidanceService = alertGuidanceService;
         }
 
         public async Task EmitAsync(Alert alert)
@@ -21,7 +23,8 @@ namespace Hackathon1.Services
                 title = alert.Title,
                 message = alert.Message,
                 createdAt = alert.CreatedAt,
-                isActive = alert.IsActive
+                isActive = alert.IsActive,
+                guidance = _alertGuidanceService.GetGuidance(alert.Title, alert.Message)
             };
 
             await _hub.Clients.Group(NotificationsHub.DefaultGroup).SendAsync("AlertEmitted", payload);

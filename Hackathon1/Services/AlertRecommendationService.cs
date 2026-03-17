@@ -1,4 +1,5 @@
 using Hackathon1.Models;
+using System.Globalization;
 
 namespace Hackathon1.Services
 {
@@ -39,10 +40,26 @@ namespace Hackathon1.Services
             });
         }
 
-        private static bool TryParseDouble(string? value, out double result) =>
-            double.TryParse(value,
-                System.Globalization.NumberStyles.Any,
-                System.Globalization.CultureInfo.InvariantCulture,
-                out result);
+        private static bool TryParseDouble(string? value, out double result)
+        {
+            if (string.IsNullOrWhiteSpace(value))
+            {
+                result = default;
+                return false;
+            }
+
+            var normalized = value.Trim();
+
+            // Try Spanish format first (e.g., 28,1), then invariant format (e.g., 28.1)
+            if (double.TryParse(normalized, NumberStyles.Any, CultureInfo.GetCultureInfo("es-ES"), out result))
+                return true;
+
+            if (double.TryParse(normalized, NumberStyles.Any, CultureInfo.InvariantCulture, out result))
+                return true;
+
+            // Last fallback for mixed separators
+            normalized = normalized.Replace(',', '.');
+            return double.TryParse(normalized, NumberStyles.Any, CultureInfo.InvariantCulture, out result);
+        }
     }
 }
