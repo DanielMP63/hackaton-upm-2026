@@ -54,7 +54,7 @@ namespace Hackathon1.Controllers
         // POST: /Backoffice/CreateAlert
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateAlert(CreateAlertViewModel vm)
+        public async Task<IActionResult> CreateAlert([Bind(Prefix = "NewAlert")] CreateAlertViewModel vm)
         {
             if (!ModelState.IsValid)
             {
