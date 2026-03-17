@@ -9,7 +9,7 @@ on:
 
 env:
   DOTNET_VERSION: '8.0.x'
-  PROJECT_PATH: 'Hackathon1/Hackathon1.csproj'
+  PROJECT_PATH: './Hackathon1/Hackathon1.csproj'
   PUBLISH_DIR: 'publish'
 
 jobs:
@@ -35,8 +35,8 @@ jobs:
       - name: Run tests (if any)
         shell: bash
         run: |
-          if find . -name "*Tests.csproj" -o -name "*.Tests.csproj" | grep -q .; then
-            dotnet test --configuration Release --no-build --verbosity normal
+          if find ./Hackathon1 -name "*Tests.csproj" -o -name "*.Tests.csproj" | grep -q .; then
+            dotnet test ./Hackathon1 --configuration Release --no-build --verbosity normal
           else
             echo "No test projects found. Skipping tests."
           fi
