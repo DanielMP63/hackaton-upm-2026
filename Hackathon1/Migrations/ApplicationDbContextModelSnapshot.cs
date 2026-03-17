@@ -245,37 +245,41 @@ namespace Hackathon1.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<decimal>("Prec")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<string>("Prec")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<decimal?>("PresMax")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<string>("PresMax")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<decimal?>("PresMin")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<string>("PresMin")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Provincia")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<decimal?>("Racha")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<string>("Racha")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<decimal?>("Sol")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<string>("Sol")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<decimal>("Tmax")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<string>("Tmax")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<decimal>("Tmed")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<string>("Tmed")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<decimal>("Tmin")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<string>("Tmin")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<decimal?>("Velmedia")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<string>("Velmedia")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
